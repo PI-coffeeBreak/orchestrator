@@ -1,4 +1,2 @@
-fileignoreconfig:
-- filename: api-application
-  checksum: 2d471d0a3d090f169b971cf0c09b45bde60959827b38b994f63d599c4ba34524
+threshold: medium
 version: "1.0"
