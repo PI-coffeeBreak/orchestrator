@@ -30,11 +30,11 @@ jobs:
         run: |
           git submodule update --remote api-application
 
-      # Configure Git user for commit
+      # Configure Git user for commit (set locally for this repository)
       - name: Set Git user for commit
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
 
       # Check for changes in the submodule reference (which is tracked in the parent repository)
       - name: Check for changes in the submodule reference
