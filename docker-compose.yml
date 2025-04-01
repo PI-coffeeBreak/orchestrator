@@ -64,7 +64,10 @@ services:
       context: keycloak
     container_name: keycloak
     environment:
+<<<<<<< HEAD
       KC_HOSTNAME: localhost
+=======
+>>>>>>> 8a3d547 (Add RabbitMQ to docker-compose)
       KC_DB: postgres
       KC_DB_URL: jdbc:postgresql://keycloak-db:5432/keycloak
     env_file:
@@ -91,10 +94,20 @@ services:
       timeout: 60s
       retries: 5
       start_period: 10s
-
+  
+  mq:
+    image: rabbitmq:4.0.7-alpine
+    container_name: mq
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+    ports:
+      - "5672:5672"
+      - "15672:15672"
 
 volumes:
   postgres_data:
   pgadmin_data:
   mongodb_data:
   keycloak_data:
+  rabbitmq_data:
