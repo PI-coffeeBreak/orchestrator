@@ -29,6 +29,6 @@ jobs:
             # Pull the latest changes from GitHub (assuming you're using Git in the VM)
             git pull origin main
 
-            docker-compose down && docker-compose up -d
+            docker compose down && docker compose up -d
 
           EOF
