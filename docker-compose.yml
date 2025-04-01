@@ -1,6 +1,5 @@
 services:
   api-application:
-    image: api-application
     build:
       context: api-application
       dockerfile: Dockerfile
