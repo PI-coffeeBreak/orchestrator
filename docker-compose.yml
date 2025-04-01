@@ -111,7 +111,7 @@ services:
       - api-application
       - keycloak
     profiles:
-      prod
+      - prod
 
 volumes:
   postgres_data:
