@@ -8,6 +8,7 @@ on:
       - main
     paths:
       - 'api-application/**'  # Trigger when the submodule's files change
+  workflow_dispatch:
 
 jobs:
   update-submodule:
