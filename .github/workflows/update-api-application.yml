@@ -1,11 +1,13 @@
 name: Update Submodule to Latest api-application
 
 on:
+  schedule:
+    - cron: '*/5 * * * *'  # Run every 5 minutes
   push:
     branches:
       - main
     paths:
-      - 'api-application/**'
+      - 'api-application/**'  # Trigger when the submodule's files change
 
 jobs:
   update-submodule:
@@ -18,14 +20,17 @@ jobs:
         with:
           submodules: true  # Ensure submodules are fetched
 
-      # Update the submodule to track the latest commit from A's main branch
+      # Initialize the submodule
+      - name: Initialize submodule
+        run: |
+          git submodule update --init --recursive
+
+      # Update the submodule to the latest commit from api-application's main branch
       - name: Update submodule to latest commit from api-application's main branch
         run: |
-          git submodule update --remote api-application  # Fetch latest commit from api-application's main branch
+          git submodule update --remote api-application
 
-      # Commit the updated submodule reference back to B's repository
-      - name: Commit submodule update
+      # Check for changes in the submodule reference (which is tracked in the parent repository)
+      - name: Check for changes in the submodule reference
         run: |
-          git add path/to/submodule
-          git commit -m "Update submodule api-application"
-          git push
+          git diff --exit-code || (git add api-application && git commit -m "Update submodule api-application" && git push)
