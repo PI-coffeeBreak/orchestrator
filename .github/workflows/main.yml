@@ -26,12 +26,12 @@ jobs:
             # Navigate to the project directory (change this to your VM path)
             cd /home/azureuser/orchestrator
 
-            docker compose down
+            docker compose --profile prod down
 
             # Pull the latest changes from GitHub (assuming you're using Git in the VM)
             git pull origin main
             git submodule update --init --recursive --remote
 
-            docker compose up -d
+            docker compose --profile prod up -d
 
           EOF
