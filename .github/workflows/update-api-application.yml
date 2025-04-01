@@ -1,0 +1,31 @@
+name: Update Submodule to Latest api-application
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'api-application/**'
+
+jobs:
+  update-submodule:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository orchestrator (this will also checkout submodules)
+      - name: Checkout repository orchestrator
+        uses: actions/checkout@v3
+        with:
+          submodules: true  # Ensure submodules are fetched
+
+      # Update the submodule to track the latest commit from A's main branch
+      - name: Update submodule to latest commit from api-application's main branch
+        run: |
+          git submodule update --remote api-application  # Fetch latest commit from api-application's main branch
+
+      # Commit the updated submodule reference back to B's repository
+      - name: Commit submodule update
+        run: |
+          git add path/to/submodule
+          git commit -m "Update submodule api-application"
+          git push
