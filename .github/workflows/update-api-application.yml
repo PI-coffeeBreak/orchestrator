@@ -8,7 +8,6 @@ on:
       - main
     paths:
       - 'api-application/**'  # Trigger when the submodule's files change
-  workflow_dispatch:
 
 jobs:
   update-submodule:
@@ -30,6 +29,12 @@ jobs:
       - name: Update submodule to latest commit from api-application's main branch
         run: |
           git submodule update --remote api-application
+
+      # Configure Git user for commit
+      - name: Set Git user for commit
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
       # Check for changes in the submodule reference (which is tracked in the parent repository)
       - name: Check for changes in the submodule reference
