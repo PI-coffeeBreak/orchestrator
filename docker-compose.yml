@@ -110,6 +110,8 @@ services:
     depends_on:
       - api-application
       - keycloak
+    profiles:
+      prod
 
 volumes:
   postgres_data:
