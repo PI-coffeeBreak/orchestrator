@@ -28,6 +28,7 @@ jobs:
 
             # Pull the latest changes from GitHub (assuming you're using Git in the VM)
             git pull origin main
+            git submodule update --init --recursive
 
             docker compose down && docker compose up -d
 
