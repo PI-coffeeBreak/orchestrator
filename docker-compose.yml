@@ -10,6 +10,10 @@ services:
     depends_on:
       database:
         condition: service_healthy
+      keycloak:
+        condition: service_started
+      mongodb:
+        condition: service_healthy
     profiles:
       - prod
 
@@ -54,6 +58,12 @@ services:
       - .env
     volumes:
       - mongodb_data:/data/db
+    healthcheck:
+      test: ["CMD-SHELL", "echo 'db.runCommand(\"ping\").ok' | mongosh localhost:27017/test --quiet"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+      start_period: 5s
 
   keycloak:
     build:
@@ -82,10 +92,10 @@ services:
       - keycloak_data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready", "-d", "db_prod"]
-      interval: 30s
+      interval: 15s
       timeout: 60s
       retries: 5
-      start_period: 10s
+      start_period: 5s
 
   mq:
     image: rabbitmq:4.0.7-alpine
@@ -106,9 +116,6 @@ services:
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./nginx/certs:/etc/nginx/certs:ro
-    depends_on:
-      - api-application
-      - keycloak
     profiles:
       - prod
 
