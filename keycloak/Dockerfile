@@ -13,6 +13,9 @@ ENV KC_PROXY_HEADERS=forwarded
 
 WORKDIR /opt/keycloak
 
+# Copy custom themes into the Keycloak providers directory
+COPY ./keycloak/providers/ /opt/keycloak/providers/
+
 # Generate a self-signed certificate for HTTPS (Development use only!)
 RUN keytool -genkeypair -storepass password -storetype PKCS12 \
     -keyalg RSA -keysize 2048 \
@@ -34,9 +37,6 @@ FROM quay.io/keycloak/keycloak:26.1.4
 COPY --from=builder /opt/keycloak/ /opt/keycloak/
 
 COPY ./exports/ /opt/keycloak/data/import/
-
-# Copy custom themes into the Keycloak providers directory
-COPY ./keycloak/providers/ /opt/keycloak/providers/
 
 # Set database environment variables (Docker Compose will override them)
 ENV KC_DB=postgres
