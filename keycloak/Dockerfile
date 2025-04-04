@@ -5,6 +5,11 @@ FROM quay.io/keycloak/keycloak:26.1.4 AS builder
 ENV KC_HEALTH_ENABLED=true
 ENV KC_METRICS_ENABLED=true
 ENV KC_DB=postgres
+ENV PROXY_ADDRESS_FORWARDING=true
+#ENV KC_HTTP_RELATIVE_PATH=/auth/
+ENV KC_HTTP_ENABLED=true
+ENV KC_HTTPS=true
+ENV KC_PROXY_HEADERS=forwarded
 
 WORKDIR /opt/keycloak
 
@@ -48,4 +53,4 @@ EXPOSE 8443
 EXPOSE 9000
 
 # Start Keycloak in PRODUCTION mode
-ENTRYPOINT ["/opt/keycloak/bin/kc.sh", "start", "--optimized", "--import-realm"]
+ENTRYPOINT ["/opt/keycloak/bin/kc.sh", "start", "--optimized", "--proxy-headers", "forwarded", "--import-realm"]
