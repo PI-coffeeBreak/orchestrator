@@ -72,8 +72,7 @@ services:
     environment:
       KC_DB: postgres
       KC_DB_URL: jdbc:postgresql://keycloak-db:5432/keycloak
-        #KC_HTTP_RELATIVE_PATH: "/auth/"  # Ensure this is correctly set
-      PROXY_ADDRESS_FORWARDING: "true"  # Enable proxy address forwarding
+      PROXY_ADDRESS_FORWARDING: "true"
       KEYCLOAK_LOGLEVEL: DEBUG
     env_file:
       - .env
@@ -83,6 +82,8 @@ services:
     depends_on:
       keycloak-db:
         condition: service_healthy
+    volumes:
+      - ./keycloak/providers:/opt/keycloak/providers:ro
 
   keycloak-db:
     image: postgres:17.4-alpine3.21
