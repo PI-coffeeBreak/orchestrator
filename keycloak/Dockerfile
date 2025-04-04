@@ -35,6 +35,9 @@ COPY --from=builder /opt/keycloak/ /opt/keycloak/
 
 COPY ./exports/ /opt/keycloak/data/import/
 
+# Copy custom themes into the Keycloak providers directory
+COPY ./keycloak/providers/ /opt/keycloak/providers/
+
 # Set database environment variables (Docker Compose will override them)
 ENV KC_DB=postgres
 ENV KC_DB_URL=jdbc:postgresql://keycloak-db:5432/keycloak
