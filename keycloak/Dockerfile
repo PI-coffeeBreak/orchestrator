@@ -14,7 +14,7 @@ ENV KC_PROXY_HEADERS=forwarded
 WORKDIR /opt/keycloak
 
 # Copy custom themes into the Keycloak providers directory
-COPY ./keycloak/providers/ /opt/keycloak/providers/
+COPY ./providers/ /opt/keycloak/providers/
 
 # Generate a self-signed certificate for HTTPS (Development use only!)
 RUN keytool -genkeypair -storepass password -storetype PKCS12 \
