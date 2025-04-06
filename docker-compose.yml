@@ -30,7 +30,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready", "-d", "db_prod"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d coffeebreak"]
       interval: 30s
       timeout: 60s
       retries: 5
@@ -101,7 +101,7 @@ services:
     volumes:
       - keycloak_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready", "-d", "db_prod"]
+      test: ["CMD-SHELL", "pg_isready -U ${KC_DB_USERNAME} -d keycloak"]
       interval: 5s
       timeout: 60s
       retries: 8
@@ -109,7 +109,7 @@ services:
 
   mq:
     restart: unless-stopped
-    image: rabbitmq:4.0.7-alpine
+    image: rabbitmq:4.0.8-management-alpine
     container_name: mq
     environment:
       RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
@@ -117,6 +117,8 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
 
   nginx:
     restart: unless-stopped
@@ -135,6 +137,19 @@ services:
         condition: service_started
     profiles:
       - prod
+
+  webpush-sender:
+    restart: unless-stopped
+    build:
+      context: webpush-sender
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    depends_on:
+      mq:
+        condition: service_started
+      database:
+        condition: service_healthy
 
 volumes:
   postgres_data:

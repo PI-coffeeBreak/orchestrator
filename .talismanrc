@@ -1,5 +1,7 @@
-threshold: medium
 fileignoreconfig:
 - filename: api-application
   checksum: 2d471d0a3d090f169b971cf0c09b45bde60959827b38b994f63d599c4ba34524
+- filename: webpush-sender
+  checksum: 278abf72603b656a396fd43c7e6207f667e6c5e8d8b0e8f8ffd58673463bb1e1
+threshold: medium
 version: "1.0"

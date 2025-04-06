@@ -1,3 +1,6 @@
 [submodule "api-application"]
 	path = api-application
 	url = https://github.com/PI-coffeeBreak/api-application-deployment.git
+[submodule "webpush-sender"]
+	path = webpush-sender
+	url = https://github.com/PI-coffeeBreak/webpush-sender.git
