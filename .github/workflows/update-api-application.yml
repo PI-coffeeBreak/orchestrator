@@ -2,7 +2,7 @@ name: Update Submodule to Latest api-application
 
 on:
   schedule:
-    - cron: '*/5 * * * *'  # Run every 5 minutes
+    - cron: '*/25 * * * *'  # Run every 5 minutes
   push:
     branches:
       - main
