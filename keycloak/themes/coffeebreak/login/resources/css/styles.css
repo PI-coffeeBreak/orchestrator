@@ -22,6 +22,12 @@
     justify-content: center;
 }
 
+.logo {
+    width: 150px;
+    height: auto;
+    margin-bottom: 2rem;
+}
+
 .login-pf-header {
     margin-bottom: 2rem;
 }
@@ -33,11 +39,14 @@
 }
 
 .form-container {
-    background-color: var(--primary);
+    background-color: var(--base-200);
     padding: 2rem;
     border-radius: 0.75rem;
     margin: 1rem 0;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .form-control {
@@ -56,6 +65,9 @@
     color: white;
     border-radius: 0.75rem;
     margin-top: 2rem;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
 }
 
 .login-pf-signup {

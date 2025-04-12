@@ -1,9 +1,10 @@
 <#import "template.ftl" as layout>
 <@layout.registrationLayout displayMessage=!messagesPerField.existsError('username','password') displayInfo=realm.password && realm.registrationAllowed && !registrationDisabled??; section>
     <#if section = "header">
+        <img src="${url.resourcesPath}/img/logo.png" alt="CoffeeBreak Logo" class="logo" />
         Welcome to coffeeBreak.
     <#elseif section = "form">
-        <div id="kc-form">
+        <div id="kc-form" class="form-container">
             <div id="kc-form-wrapper">
                 <#if realm.password>
                     <form id="kc-form-login" onsubmit="login.disabled = true; return true;" action="${url.loginAction}" method="post">
