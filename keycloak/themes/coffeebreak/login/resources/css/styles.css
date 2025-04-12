@@ -33,7 +33,7 @@
 }
 
 .form-container {
-    background-color: var(--base-200);
+    background-color: var(--primary);
     padding: 2rem;
     border-radius: 0.75rem;
     margin: 1rem 0;
