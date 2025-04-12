@@ -89,6 +89,7 @@ services:
         condition: service_healthy
     volumes:
       - ./keycloak/providers:/opt/keycloak/providers:ro
+      - ./keycloak/themes:/opt/keycloak/themes:ro
 
   keycloak-db:
     restart: unless-stopped
