@@ -13,7 +13,10 @@ ENV KC_PROXY_HEADERS=forwarded
 
 WORKDIR /opt/keycloak
 
-# Copy custom themes into the Keycloak providers directory
+# Copy custom themes into the Keycloak themes directory
+COPY ./themes/ /opt/keycloak/themes/
+
+# Copy custom providers into the Keycloak providers directory
 COPY ./providers/ /opt/keycloak/providers/
 
 # Generate a self-signed certificate for HTTPS (Development use only!)
@@ -33,8 +36,11 @@ RUN mkdir -p /opt/keycloak/data/import && echo "Ensure this directory contains t
 # 🔹 Step 2: Create the final image
 FROM quay.io/keycloak/keycloak:26.1.4
 
-# Copy the built Keycloak instance
+# Copy the built Keycloak instance with themes
 COPY --from=builder /opt/keycloak/ /opt/keycloak/
+
+# Copy themes again to ensure they are available in the final image
+COPY ./themes/ /opt/keycloak/themes/
 
 COPY ./exports/ /opt/keycloak/data/import/
 
@@ -55,5 +61,5 @@ ENV KEYCLOAK_IMPORT=/opt/keycloak/data/import
 EXPOSE 8443
 EXPOSE 9000
 
-# Start Keycloak in PRODUCTION mode
+# Start Keycloak in PRODUCTION mode with development theme caching disabled
 ENTRYPOINT ["/opt/keycloak/bin/kc.sh", "start", "--optimized", "--proxy-headers", "forwarded", "--import-realm"]
