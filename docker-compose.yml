@@ -90,6 +90,7 @@ services:
     volumes:
       - ./keycloak/providers:/opt/keycloak/providers:ro
       - ./keycloak/themes:/opt/keycloak/themes:ro
+      - ./keycloak/exports:/opt/keycloak/data/import:ro
 
   keycloak-db:
     restart: unless-stopped
