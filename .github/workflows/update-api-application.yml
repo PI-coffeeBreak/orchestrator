@@ -1,16 +1,17 @@
-name: Update Submodule to Latest api-application
+name: Update Submodules to Latest
 
 on:
   schedule:
-    - cron: '*/25 * * * *'  # Run every 5 minutes
+    - cron: '0/30 * * * *'  # Run 2 times per hour
   push:
     branches:
       - main
     paths:
-      - 'api-application/**'  # Trigger when the submodule's files change
+      - 'api-application/**'
+      - 'webpush-sender/**'  # Trigger when the webpush-sender submodule files change
 
 jobs:
-  update-submodule:
+  update-submodules:
     runs-on: ubuntu-latest
 
     steps:
@@ -20,15 +21,20 @@ jobs:
         with:
           submodules: true  # Ensure submodules are fetched
 
-      # Initialize the submodule
-      - name: Initialize submodule
+      # Initialize submodules (this is optional, but ensures submodules are initialized)
+      - name: Initialize submodules
         run: |
           git submodule update --init --recursive
 
-      # Update the submodule to the latest commit from api-application's main branch
-      - name: Update submodule to latest commit from api-application's main branch
+      # Update the api-application submodule to the latest commit from its main branch
+      - name: Update api-application submodule to latest commit from main branch
         run: |
           git submodule update --remote api-application
+
+      # Update the webpush-sender submodule to the latest commit from its main branch
+      - name: Update webpush-sender submodule to latest commit from main branch
+        run: |
+          git submodule update --remote webpush-sender
 
       # Configure Git user for commit (set locally for this repository)
       - name: Set Git user for commit
@@ -36,7 +42,12 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      # Check for changes in the submodule reference (which is tracked in the parent repository)
-      - name: Check for changes in the submodule reference
+      # Check for changes in the api-application submodule reference
+      - name: Check for changes in api-application submodule reference
         run: |
-          git diff --exit-code || (git add api-application && git commit -m "Update submodule api-application" && git push)
+          git diff --exit-code api-application || (git add api-application && git commit -m "Update api-application submodule" && git push)
+
+      # Check for changes in the webpush-sender submodule reference
+      - name: Check for changes in webpush-sender submodule reference
+        run: |
+          git diff --exit-code webpush-sender || (git add webpush-sender && git commit -m "Update webpush-sender submodule" && git push)
