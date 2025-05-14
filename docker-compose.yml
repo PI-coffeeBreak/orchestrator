@@ -154,7 +154,8 @@ services:
       - "443:443"
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-      - ./nginx/certs:/etc/nginx/certs:ro
+      - /etc/letsencrypt/live/coffeebreak.sebastiaoteixeira.me/fullchain.pem:/etc/nginx/certs/fullchain.pem:ro
+      - /etc/letsencrypt/live/coffeebreak.sebastiaoteixeira.me/privkey.pem:/etc/nginx/certs/privkey.pem:ro
     depends_on:
       keycloak:
         condition: service_started
